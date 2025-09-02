@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel Admin</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="module" src="./firebase.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: #333; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+    img { max-width: 100px; margin: 5px; border-radius: 8px; }
+    .upload-area { margin: 20px 0; }
+    button { padding: 10px; border-radius: 6px; border: none; background: #007bff; color: white; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <h1>Painel Administrativo</h1>
+  <p>Relatórios do dia:</p>
+  <div id="relatorios"></div>
+
+  <div class="upload-area">
+    <h2>Enviar imagem (somente Admin)</h2>
+    <input type="file" id="fileInput" />
+    <button id="uploadBtn">Enviar</button>
+  </div>
+
+  <h2>Galeria de imagens</h2>
+  <div id="galeria"></div>
+
+  <script type="module">
+    import { auth, db, storage } from './firebase.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+
+    const relatoriosDiv = document.getElementById("relatorios");
+    const galeriaDiv = document.getElementById("galeria");
+
+    // === Buscar relatórios do dia ===
+    async function carregarRelatorios() {
+      const hoje = new Date().toISOString().split("T")[0]; // formato YYYY-MM-DD
+      const q = query(collection(db, "lancamentos"), where("data", "==", hoje));
+      const snap = await getDocs(q);
+
+      relatoriosDiv.innerHTML = "";
+      snap.forEach(doc => {
+        const d = doc.data();
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerText = `${d.matricula} - Sobra: ${d.sobra || 0} / Falta: ${d.falta || 0}`;
+        relatoriosDiv.appendChild(div);
+      });
+    }
+
+    // === Upload de imagem ===
+    document.getElementById("uploadBtn").addEventListener("click", async () => {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return alert("Selecione um arquivo primeiro");
+
+      const storageRef = ref(storage, "adminImages/" + Date.now() + "-" + file.name);
+      await uploadBytes(storageRef, file);
+
+      alert("Imagem enviada!");
+      carregarImagens();
+    });
+
+    // === Carregar galeria de imagens ===
+    async function carregarImagens() {
+      galeriaDiv.innerHTML = "";
+      const listRef = ref(storage, "adminImages");
+      const result = await listAll(listRef);
+
+      for (const item of result.items) {
+        const url = await getDownloadURL(item);
+        const img = document.createElement("img");
+        img.src = url;
+        galeriaDiv.appendChild(img);
+      }
+    }
+
+    // Só carrega se o usuário estiver logado
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        carregarRelatorios();
+        carregarImagens();
+      } else {
+        window.location.href = "index.html"; // se não estiver logado, volta pro login
+      }
+    });
+  </script>
+</body>
+</html>
