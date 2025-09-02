@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relatório de Diferenças</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script type="module" src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Logo" class="logo"/>
+      <h1>Relatório de Diferenças</h1>
+    </div>
+    <div class="actions">
+      <button id="btnResumoRecebedor" class="btn outline admin-only" hidden>Resumo do Recebedor</button>
+      <button id="btnAlterarSenha" class="btn">Alterar Senha</button>
+      <button id="btnLogout" class="btn danger">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="appSection">
+      <div class="grid">
+        <!-- ESQUERDA: RESUMO (ADMIN) -->
+        <aside class="card">
+          <div class="flex-between">
+            <h3>Resumo do Recebedor</h3>
+            <button id="btnToggleResumo" class="btn outline admin-only" hidden>Esconder/Exibir</button>
+          </div>
+          <div id="resumoWrap" class="collapsed">
+            <div class="row">
+              <label>Matrícula</label>
+              <select id="selectMatriculas"></select>
+            </div>
+            <div class="row">
+              <label>Mês</label>
+              <input id="mesResumo" type="month" />
+              <button id="btnCarregarResumo" class="btn admin-only" hidden>Carregar</button>
+            </div>
+            <div id="resumoDados" class="stats">
+              <div><span>Total Folha (mês)</span><strong id="resumoTotalFolha">R$ 0,00</strong></div>
+              <div><span>Saldo (Dinheiro − Folha)</span><strong id="resumoSaldo">R$ 0,00</strong></div>
+              <div><span>Situação</span><strong id="resumoSituacao">—</strong></div>
+              <div class="filter-row">
+                <label>Ver apenas:</label>
+                <select id="filtroPositivosNegativos">
+                  <option value="todos">Todos</option>
+                  <option value="positivos">Somente Sobra</option>
+                  <option value="negativos">Somente Falta</option>
+                </select>
+              </div>
+              <div id="resumoLista" class="resumo-lista"></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- DIREITA: GERAR RELATÓRIO (ADMIN) -->
+        <aside class="card">
+          <h3>Gerar Relatório</h3>
+          <div id="gerarRelatorioForm" class="admin-only" hidden>
+            <div class="row">
+              <label>Matrícula do Caixa</label>
+              <select id="matriculaForm"></select>
+            </div>
+            <div class="row">
+              <label>Data do Caixa</label>
+              <input id="dataCaixa" type="date"/>
+            </div>
+            <div class="row">
+              <label>Valor Folha (R$)</label>
+              <input id="valorFolha" type="number" step="0.01" />
+            </div>
+            <div class="row">
+              <label>Valor em Dinheiro (R$)</label>
+              <input id="valorDinheiro" type="number" step="0.01" />
+            </div>
+            <div class="row">
+              <label>Sobra/Falta (R$)</label>
+              <input id="sobraFalta" type="text" disabled />
+            </div>
+            <div class="row">
+              <label>Observação</label>
+              <textarea id="observacao" rows="2"></textarea>
+            </div>
+            <button id="btnSalvarRelatorio" class="btn primary">Salvar</button>
+          </div>
+          <div class="user-only" id="infoUserOnly" hidden>
+            <p>Os relatórios são criados pelos administradores e vinculados à sua matrícula.</p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- FILTROS GERAIS -->
+      <section class="card">
+        <div class="flex-wrap">
+          <div class="row admin-only" hidden>
+            <label>Filtrar por Matrícula</label>
+            <select id="filtroMatricula"></select>
+            <button id="btnAplicarFiltroMatricula" class="btn outline">Abrir</button>
+          </div>
+          <div class="row">
+            <label>Filtrar por Data</label>
+            <input id="filtroDataGlobal" type="date" />
+            <button id="btnFiltrarPorData" class="btn outline">Procurar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- LISTA DE RELATÓRIOS -->
+      <section class="card">
+        <h3>Relatórios</h3>
+        <div id="listaRelatorios" class="lista"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    (desenvolvido por Lucas L Custodio, versão 1.0)
+  </footer>
+
+  <!-- Modal Pós Conferência -->
+  <dialog id="posModal" class="modal">
+    <form method="dialog" class="modal-content">
+      <h3>Pós Conferência</h3>
+      <textarea id="posTexto" rows="6" placeholder="Somente admins podem escrever..."></textarea>
+      <div class="row">
+        <button id="btnAnexarImagem" class="btn outline admin-only" hidden type="button">Anexar imagem</button>
+        <input id="posImagemInput" type="file" accept="image/*" hidden />
+        <button id="btnVerImagem" class="btn outline" type="button">Visualizar imagem anexada</button>
+        <button id="btnSalvarPos" class="btn primary admin-only" hidden type="button">Salvar</button>
+        <button id="btnExcluirImagem" class="btn danger admin-only" hidden type="button">Excluir imagem</button>
+        <button id="btnFecharPos" class="btn" type="submit">Fechar</button>
+      </div>
+      <img id="previewImagem" class="preview" alt="Pré-visualização" hidden />
+    </form>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,77 @@
+/* Tema profissional: fibra de carbono + verde bandeira */
+:root{
+  --green:#00c853;
+  --bg:#0b0c0e;
+  --card:#16181d;
+  --muted:#9aa0a6;
+  --text:#f2f2f2;
+  --warn:#ffd54f;
+  --danger:#ef5350;
+  --outline:#3a3d44;
+}
+*{box-sizing:border-box}
+body{margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:var(--text); background:
+  radial-gradient(circle at 25% 25%, #1b1d22 2px, transparent 2px) 0 0/10px 10px,
+  radial-gradient(circle at 75% 75%, #1b1d22 2px, transparent 2px) 0 0/10px 10px,
+  linear-gradient(#0f1013, #111316 40%, #0b0c0e);}
+
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #0f0}
+.brand{display:flex; gap:12px; align-items:center}
+.logo{height:44px; filter:drop-shadow(0 0 6px rgba(0,200,83,.25))}
+h1{margin:0; color:var(--green); text-shadow:0 0 10px rgba(0,200,83,.2)}
+.actions{display:flex; gap:8px}
+.container{padding:18px; max-width:1200px; margin:0 auto}
+.card{background:linear-gradient(180deg,#1b1e24,#12151a); border:1px solid #0f1115; border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.35); margin:16px 0}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.flex-between{display:flex; justify-content:space-between; align-items:center}
+.flex-wrap{display:flex; gap:22px; flex-wrap:wrap}
+.row{display:flex; gap:10px; align-items:center; margin:8px 0}
+label{min-width:170px; color:#c9c9c9}
+input, textarea, select{background:#f2f2f2; color:#000; border:2px solid #009739; padding:10px 12px; border-radius:10px; outline:none; width:100%}
+textarea{resize:vertical}
+.btn{padding:10px 14px; border-radius:12px; border:1px solid #007a2f; background:#23262b; color:#fff; cursor:pointer; transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(180deg,#2fba6b,#1d8d4e); border-color:#0b5}
+.btn.outline{background:transparent; border:1px solid var(--outline)}
+.btn.danger{background:linear-gradient(180deg,#8f2a2a,#5b1717); border-color:#a33}
+.footer{padding:16px; text-align:center; color:#aaa; border-top:1px solid #111}
+
+/* Lista */
+.lista .item{border:1px solid #1f2126; border-left:4px solid var(--green); border-radius:12px; padding:10px 12px; margin-bottom:10px; background:#17191e}
+.item-header{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.item-title{font-weight:600}
+.badge{background:#30333a; border:1px solid #3a3d44; border-radius:999px; padding:4px 8px; font-size:12px}
+.badge.warn{background:#3b340f; border-color:#ffd54f; color:#ffd54f}
+.controls{display:flex; gap:8px; flex-wrap:wrap}
+.controls .btn{padding:6px 10px; border-radius:10px; font-size:13px}
+.item-body{margin-top:8px; padding-top:8px; border-top:1px dashed #2a2d33}
+.field{display:grid; grid-template-columns:180px 1fr; gap:10px; margin:6px 0}
+.money{font-variant-numeric:tabular-nums}
+
+/* Auth pages */
+.auth-bg{min-height:100vh; display:flex; align-items:center; justify-content:center; background:
+  radial-gradient(circle at 25% 25%, #1b1d22 2px, transparent 2px) 0 0/10px 10px,
+  radial-gradient(circle at 75% 75%, #1b1d22 2px, transparent 2px) 0 0/10px 10px,
+  linear-gradient(#0f1013, #111316 40%, #0b0c0e);}
+.auth-wrapper{width:100%; max-width:420px; padding:20px}
+.auth-card{background:linear-gradient(180deg,#1c1f25cc,#111418e6); border:1px solid #0e1014; border-radius:18px; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.brand-row{display:flex; align-items:center; gap:10px; margin-bottom:8px}
+.auth-logo{height:40px}
+.form-group{margin:12px 0}
+.input-icon{position:relative}
+.input-icon > span{position:absolute; left:12px; top:50%; transform:translateY(-50%)}
+.input-icon > input{padding-left:38px}
+.w-100{width:100%}
+.splitter{display:flex; align-items:center; justify-content:center; gap:12px; color:var(--muted); margin:12px 0}
+.splitter:before,.splitter:after{content:""; height:1px; background:#2b2e34; width:40%}
+
+/* Modal */
+.modal{border:none; border-radius:16px; padding:0; background:transparent}
+.modal::backdrop{background:rgba(0,0,0,.6)}
+.modal-content{background:#1a1c20; border:1px solid #30333a; padding:16px; border-radius:16px; width:min(680px,96vw)}
+.preview{margin-top:10px; max-height:300px; border-radius:12px; border:1px solid #2f3239}
+
+/* Helpers */
+.collapsed{display:none}
+.admin-only[hidden]{display:none!important}
+.user-only[hidden]{display:none!important}

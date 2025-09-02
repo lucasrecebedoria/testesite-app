@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | Relatório de Diferenças</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js" defer></script>
+</head>
+<body class="auth-bg">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="brand-row">
+        <img src="assets/logo.png" alt="Logo" class="auth-logo">
+        <h1>Relatório de Diferenças</h1>
+      </div>
+      <h2>Acesso</h2>
+      <div class="form-group">
+        <label>Matrícula</label>
+        <div class="input-icon">
+          <span>🆔</span>
+          <input id="loginMatricula" placeholder="Ex: 6266">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="input-icon">
+          <span>🔒</span>
+          <input id="loginSenha" type="password" placeholder="Sua senha">
+        </div>
+      </div>
+      <button id="btnLogin" class="btn primary w-100">Entrar</button>
+      <div class="splitter"><span>ou</span></div>
+      <button class="btn outline w-100" onclick="location.href='register.html'">Cadastrar novo usuário</button>
+    </div>
+  </div>
+</body>
+</html>

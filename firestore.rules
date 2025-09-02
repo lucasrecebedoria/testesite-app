@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /usuarios/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+        (request.resource.data.isAdmin == true);
+    }
+    match /relatorios/{docId} {
+      // Admins
+      allow create, update, delete, read: if request.auth != null &&
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.isAdmin == true;
+      // Usuário comum: leitura dos próprios
+      allow read: if request.auth != null &&
+        resource.data.matricula == get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.matricula;
+    }
+  }
+}
