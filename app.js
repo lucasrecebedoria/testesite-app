@@ -160,4 +160,26 @@ if(page === 'dashboard.html'){
 // (popularMatriculasSelects, salvarRelatorioAdmin, carregarListaPadrao,
 // filtrarPorMatricula, filtrarPorData, carregarResumoAdmin, renderLista, 
 // editRelatorio, deleteRelatorio, pós-conferência)
+// ====== Função para preencher selects com as matrículas ======
+async function popularMatriculasSelects(){
+  try {
+    const snapshot = await getDocs(collection(db, "usuarios"));
+    const usuarios = snapshot.docs.map(doc => doc.data());
+
+    // Pega todos os <select> que devem receber as matrículas
+    const selects = document.querySelectorAll(".matriculas-select");
+    selects.forEach(select => {
+      select.innerHTML = "<option value=''>-- Selecione --</option>"; // limpa antes
+      usuarios.forEach(u => {
+        const opt = document.createElement("option");
+        opt.value = u.matricula;
+        opt.textContent = `${u.matricula} - ${u.nome}`;
+        select.appendChild(opt);
+      });
+    });
+
+  } catch (err) {
+    console.error("Erro ao carregar matrículas:", err);
+  }
+}
 
